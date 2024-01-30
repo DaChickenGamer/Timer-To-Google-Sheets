@@ -1,5 +1,7 @@
 const timerText = document.getElementById("timer");
 
+let timerStarted = false;
+
 let seconds = 0;
 let minutes = 0;
 let hours = 0;
@@ -8,10 +10,37 @@ let secondsText = "";
 let minutesText = "";
 let hoursText = "";
 
-setInterval(TimerIncrement, 1000)
+const timer = setInterval(TimerIncrement, 1000)
+
+function TimeToString(hours, minutes, seconds)
+{
+    return hours.toString() + ":" + minutes.toString() + ":" + seconds.toString();
+}
+function StartTimer()
+{
+    timerStarted = true;
+}
+function StopTimer()
+{
+    timerStarted = false;
+}
+function ClearTimer()
+{
+    seconds = 0;
+    minutes = 0;
+    hours = 0;
+
+    secondsText = "0" + seconds.toString();
+    minutesText = "0" + minutes.toString();
+    hoursText = "0" + hours.toString();
+
+    timerText.innerText = hoursText + ":" + minutesText + ":" + secondsText;
+}
 
 function TimerIncrement()
 {
+    if (timerStarted == false)
+        return;
     seconds += 1;
 
     if(seconds > 59)
