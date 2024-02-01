@@ -1,5 +1,8 @@
 const timerText = document.getElementById("timer");
 
+let spreedsheetID = "";
+let googleSheetsApikey = "";
+
 let timerStarted = false;
 
 let seconds = 0;
@@ -91,4 +94,9 @@ function TimerIncrement()
     }
 
     timerText.innerText = FormatTime(hours, minutes, seconds);
+}
+
+function UpdateSpreadSheet()
+{
+
 }
