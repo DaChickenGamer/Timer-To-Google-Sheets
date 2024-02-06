@@ -16,8 +16,39 @@ let hoursText = "";
 let timeStorage = {};
 let currentRecord = 0;
 
+let cookies = "";
+
 const timer = setInterval(TimerIncrement, 1000)
 
+
+window.onload = LoadCookies();
+window.onbeforeunload = UpdateCookies();
+
+function LoadCookies()
+{
+    if(cookies != null) {
+        cookies = document.cookie;
+        let cookieArray = cookies.split(";");
+        timerText.innerText = cookieArray[1]
+    }
+
+    return null;
+}
+function UpdateCookies()
+{
+    document.cookie = "currentTime=" + GetCurrentTime();
+
+    return null;
+}
+
+function ResetCookies()
+{
+    document.cookie = null;
+}
+function GetCurrentTime()
+{
+    return FormatTime(hours, minutes, seconds);
+}
 function FormatTime(hours, minutes, seconds)
 {
     if(seconds < 10)
@@ -45,6 +76,7 @@ function StopTimer()
 }
 function ClearTimer()
 {
+    ResetCookies();
     timeStorage[currentRecord] = FormatTime(hours, minutes, seconds);
     currentRecord += 1;
 
