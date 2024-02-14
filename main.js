@@ -26,16 +26,20 @@ window.onbeforeunload = UpdateCookies;
 
 function LoadCookies()
 {
-    if(document.cookie != null && document.cookie != 0) {
+    console.log(document.cookie)
+    if(document.cookie != null){
         cookies = document.cookie;
         let cookieArray = cookies.split(";");
-        timerText.innerText = cookieArray[0].split("=")[1];
-        for (const cookieArrayKey in cookieArray) {
-            console.log(cookieArrayKey);
-        }
+
+        let timeArray = cookieArray[0].split("=")[1].split(":");
+        hours = parseInt(timeArray[0]);
+        minutes = parseInt(timeArray[1]);
+        seconds = parseInt(timeArray[2]);
+        UpdateTimer();
     }
     else{
-        timerText.innerText = "00:00:00";
+        ResetTime();
+        UpdateTimer();
     }
 }
 function UpdateCookies()
@@ -55,6 +59,10 @@ function ResetCookies()
 function GetCurrentTime()
 {
     return FormatTime(hours, minutes, seconds);
+}
+function UpdateTimer()
+{
+    timerText.innerText = FormatTime(hours, minutes, seconds);
 }
 function FormatTime(hours, minutes, seconds)
 {
@@ -82,12 +90,8 @@ function StopTimer()
     UpdateCookies();
     timerStarted = false;
 }
-function ClearTimer()
+function ResetTime()
 {
-    ResetCookies();
-    timeStorage[currentRecord] = FormatTime(hours, minutes, seconds);
-    currentRecord += 1;
-
     seconds = 0;
     minutes = 0;
     hours = 0;
@@ -95,8 +99,12 @@ function ClearTimer()
     secondsText = "0" + seconds.toString();
     minutesText = "0" + minutes.toString();
     hoursText = "0" + hours.toString();
-
-    timerText.innerText = hoursText + ":" + minutesText + ":" + secondsText;
+}
+function ClearTimer()
+{
+    ResetCookies();
+    timeStorage[currentRecord] = FormatTime(hours, minutes, seconds);
+    currentRecord += 1;
 }
 function PrintData()
 {
