@@ -21,24 +21,31 @@ let cookies = "";
 const timer = setInterval(TimerIncrement, 1000)
 
 
-window.onload = LoadCookies();
-window.onbeforeunload = UpdateCookies();
+window.onload = LoadCookies;
+window.onbeforeunload = UpdateCookies;
 
 function LoadCookies()
 {
-    if(cookies != null) {
+    if(document.cookie != null && document.cookie != 0) {
         cookies = document.cookie;
         let cookieArray = cookies.split(";");
-        timerText.innerText = cookieArray[1]
+        timerText.innerText = cookieArray[0].split("=")[1];
+        for (const cookieArrayKey in cookieArray) {
+            console.log(cookieArrayKey);
+        }
     }
-
-    return null;
+    else{
+        timerText.innerText = "00:00:00";
+    }
 }
 function UpdateCookies()
 {
-    document.cookie = "currentTime=" + GetCurrentTime();
+    const d = new Date();
+    let daysToExpire = 365;
+    d.setTime(d.getTime() + (daysToExpire * 24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
 
-    return null;
+    document.cookie = "currentTime=" + GetCurrentTime() + "; " + expires;
 }
 
 function ResetCookies()
@@ -72,6 +79,7 @@ function StartTimer()
 }
 function StopTimer()
 {
+    UpdateCookies();
     timerStarted = false;
 }
 function ClearTimer()
