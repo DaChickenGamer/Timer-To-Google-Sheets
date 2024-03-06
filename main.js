@@ -24,8 +24,21 @@ const timer = setInterval(TimerIncrement, 1000)
 window.onload = LoadCookies;
 window.onbeforeunload = UpdateCookies;
 
+const date1 = new Date("November 27, 2024 15:23:19");
+const date2 = new Date("April 8, 2021 3:14:29");
+
+window.onload = DateToHours(date1, date2);
+
+// Use for offline calculations
+function DateToHours(date1, date2) {
+    hours = Math.abs(date1 - date2) / 36e5;
+    console.log(hours);
+}
+
 function LoadCookies()
 {
+    // Check if timer cookie is running is true
+    // If is true calculate time since it was last running and update timer accordingly 
     console.log(document.cookie)
     if(document.cookie != null){
         cookies = document.cookie;
@@ -50,6 +63,8 @@ function UpdateCookies()
     let expires = "expires="+ d.toUTCString();
 
     document.cookie = "currentTime=" + GetCurrentTime() + "; " + expires;
+    // isTimer Running Cookie
+    // DateTime On Exit Cookie if timer is running
 }
 
 function ResetCookies()
